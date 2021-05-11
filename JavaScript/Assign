@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <title>Assignment</title>
+    <style>
+      div {
+        display: inline-block;
+        margin: 1%;
+        padding: 2%;
+        border: 3px solid black;
+        width: 65%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      function addChild(id, parent) {
+        console.log(id);
+        var div = document.createElement("div");
+        div.innerHTML = obj[id].name + "<br>";
+        parent.appendChild(div);
+        if (obj[id].children !== null) {
+          let len = obj[id].children.length;
+          for (let i = 0; i < len; i++) {
+            addChild(obj[id].children[i], div);
+          }
+        }
+        console.log(div);
+      }
+
+      var data = [
+        {
+          empId: 1,
+          empName: "Ramesh",
+          mgrdId: 3,
+        },
+        {
+          empId: 3,
+          empName: "Pravin",
+          mgrdId: 104,
+        },
+        {
+          empId: 2,
+          empName: "Suresh",
+          mgrdId: 3,
+        },
+        {
+          empId: 6,
+          empName: "Sandeep",
+          mgrdId: 2,
+        },
+        {
+          empId: 4,
+          empName: "Rahul",
+          mgrdId: 1,
+        },
+        {
+          empId: 5,
+          empName: "Mahesh",
+          mgrdId: 2,
+        },
+        {
+          empId: 104,
+          empName: "Vishal",
+          mgrdId: null,
+        },
+      ];
+
+      var obj = {};
+      var root = 0;
+      for (i = 0; i < data.length; i++) {
+        if (Object.keys(obj).includes(data[i].empId.toString()) === false) {
+          obj[data[i].empId] = { name: data[i].empName, children: null };
+        } else if (obj[data[i].empId].name === null) {
+          obj[data[i].empId].name = data[i].empName;
+        }
+        if (data[i].mgrdId != null) {
+          if (Object.keys(obj).includes(data[i].mgrdId.toString()) === false) {
+            var l = new Array();
+            l.push(data[i].empId);
+            obj[data[i].mgrdId] = { name: null, children: l };
+          } else if (obj[data[i].mgrdId].children == null) {
+            var l = new Array();
+            l.push(data[i].empId);
+            obj[data[i].mgrdId].children = l;
+          } else {
+            obj[data[i].mgrdId].children.push(data[i].empId);
+          }
+        } else {
+          root = data[i].empId;
+        }
+      }
+      console.log(obj);
+
+      var container = document.getElementById("container");
+      console.log(container);
+      addChild(root, container);
+    </script>
+  </body>
+</html>
